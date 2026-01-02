@@ -19,6 +19,8 @@ enum Commands {
     Set { key: String, value: String },
     /// Gets a value by key
     Get { key: String },
+    /// Removes a key
+    Rm { key: String },
 }
 
 fn main() -> Result<()> {
@@ -35,6 +37,10 @@ fn main() -> Result<()> {
                 Some(value) => println!("{}", value),
                 None => println!("Key not found"),
             }
+        }
+        Commands::Rm { key } => {
+            store.remove(key)?;
+            println!("OK");
         }
     }
 

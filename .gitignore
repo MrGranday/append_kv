@@ -1,5 +1,6 @@
 # Rust/Cargo files
 /target/
+/data/kv.log
 **/*.rs.bk
 **/*.rmeta
 **/*.rlib

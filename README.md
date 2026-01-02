@@ -45,6 +45,14 @@ cargo run -- get user:101
 # Output: Alice Wonderland
 ```
 
+#### 3. Remove a Key
+Removes a key from the store. This appends a "tombstone" record to the log, effectively hiding the key from future lookups.
+```sh
+cargo run -- rm <KEY>
+# Example
+cargo run -- rm user:101
+```
+
 ---
 
 ## 🏗️ Architecture & Implementation
