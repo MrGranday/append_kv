@@ -3,16 +3,14 @@ name = "append_kv"
 version = "0.1.0"
 edition = "2024"
 authors = ["Osman Ghani Granday"]
-description = "A simple Rust key-value store library"
+description = "A simple, persistent append-only key-value store built in Rust."
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/MrGranday/append_kv"
 homepage = "https://github.com/MrGranday/append_kv"
 documentation = "https://docs.rs/append_kv"
-
-# Arrays must be properly formatted
-keywords = ["rust", "key-value", "storage"]
-categories = ["data-structures", "key-value-stores"]
-
+readme = "README.md"
+keywords = ["database", "key-value", "storage-engine", "append-only", "rust"]
+categories = ["database-implementations", "data-structures"]
 
 [dependencies]
 anyhow = "1.0"
