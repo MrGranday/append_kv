@@ -100,7 +100,7 @@ impl KvStore {
         };
 
         let mut reader = BufReader::new(&self.file);
-        reader.seek(SeekFrom::Start(*offset)).context("Failed to seek to record")?;
+        reader.seek(SeekFrom::Start(offset)).context("Failed to seek to record")?;
 
         // Read header
         let key_len = reader.read_u32::<LittleEndian>().context("Failed to read key len")? as u64;
