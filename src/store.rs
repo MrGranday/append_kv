@@ -49,12 +49,19 @@ impl KvStore {
             };
 
             // Read value length
-            let val_len = reader.read_u32::<LittleEndian>().context("Failed to read value length")? as u64;
+            let val_len = reader.read_u32::<LittleEndian>().context("Failed to read value length")?;
 
             // Read key
             let mut key_bytes = vec![0u8; key_len as usize];
             reader.read_exact(&mut key_bytes).context("Failed to read key")?;
             let key = String::from_utf8(key_bytes).context("Key contains invalid UTF-8")?;
+
+            // Check for tombstone
+            if val_len == u32::MAX {
+                self.index.remove(&key);
+                offset += 4 + 4 + key_len;
+                continue;
+            }
 
             // Store offset in index
             self.index.insert(key, offset);
@@ -63,8 +70,30 @@ impl KvStore {
             reader.seek_relative(val_len as i64).context("Failed to skip value")?;
 
             // Update offset to next record
-            offset += 4 + 4 + key_len + val_len;
+            offset += 4 + 4 + key_len + (val_len as u64);
         }
+
+        Ok(())
+    }
+
+    pub fn remove(&mut self, key: String) -> Result<()> {
+        let mut writer = BufWriter::new(&self.file);
+        // Seek to end to append
+        writer.seek(SeekFrom::End(0)).context("Failed to seek to end")?;
+
+        let key_bytes = key.as_bytes();
+
+        // Write header
+        writer.write_u32::<LittleEndian>(key_bytes.len() as u32).context("Failed to write key len")?;
+        writer.write_u32::<LittleEndian>(u32::MAX).context("Failed to write tombstone val len")?;
+        
+        // Write key only
+        writer.write_all(key_bytes).context("Failed to write key")?;
+        
+        writer.flush().context("Failed to flush writes")?;
+
+        // Remove from index
+        self.index.remove(&key);
 
         Ok(())
     }
