@@ -2,6 +2,17 @@
 name = "append_kv"
 version = "0.1.0"
 edition = "2024"
+authors = ["Osman Ghani Granday"]
+description = "A simple Rust key-value store library"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/MrGranday/append_kv"
+homepage = "https://github.com/MrGranday/append_kv"
+documentation = "https://docs.rs/append_kv"
+
+# Arrays must be properly formatted
+keywords = ["rust", "key-value", "storage"]
+categories = ["data-structures", "key-value-stores"]
+
 
 [dependencies]
 anyhow = "1.0"
